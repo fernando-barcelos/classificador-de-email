@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload de Emails</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input[type="file"], textarea {
+      width: 100%;
+      margin-top: 8px;
+    }
+    textarea {
+      height: 150px;
+      resize: none;
+    }
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .clear-btn {
+      background-color: #f44336;
+    }
+    /* Estilo para a div de mensagem */
+    .message-box {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9; /* mesmo fundo do body */
+      border-radius: 5px;
+      text-align: center;
+    }
+    .message-box p {
+      color: red;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <h2>Processamento de Emails</h2>
+  
+      <label for="fileUpload">Upload de arquivo (.txt ou .pdf):</label>
+      <input type="file" id="fileUpload" name="fileUpload" accept=".txt,.pdf">
+      
+      <label for="emailText">Texto do email:</label>
+      <textarea id="emailText" name="emailText" placeholder="Cole aqui o conteúdo do email..."></textarea>
+      
+      <div class="buttons">
+        <button type="submit">Enviar para Processamento</button>
+        <button type="button" class="clear-btn" onclick="document.getElementById('fileUpload').value=''">
+          Limpar Arquivo
+        </button>
+      </div>
+    </form>
+    <div class="message-box">
+      {% if message %}
+        <p>{{ message }}</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
