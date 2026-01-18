@@ -1,7 +1,6 @@
 from flask import render_template, request
 from config import IaTratament as iaResponse
 from config import DocumentRead as read
-from config import PreProcessing as spacy
 class Index:
     @staticmethod
     def index():
@@ -19,25 +18,23 @@ class DataController:
                     text_file =  read.pdf(file)
                     if len(text_file) <= 20:
                         return render_template('index.html', message = 
-                            iaResponse.generate_response(text_file))
+                            iaResponse.generate_response(text_file,(iaResponse.classify_email(text_file))))
                     
-                    return render_template('index.html', message = 
-                        iaResponse.generate_response((iaResponse.classify_email(text_file),
-                             text_file)))
+                    return render_template('index.html', message =
+                            iaResponse.generate_response(text_file, iaResponse.classify_email(text_file)))
                 
                 #trata arquivos TXT egera a resposta
                 if ".txt" in file.filename:
                     text_file = read.txt(file)
                     if len(text_file) <= 20:
                         return render_template('index.html', message =
-                            iaResponse.generate_response(text_file))
+                            iaResponse.generate_response(text_file, (iaResponse.classify_email(text_file))))
                 
-                    return render_template('index.html', message=(
-                        iaResponse.generate_response((iaResponse.classify_email(text_file)),
-                             text_file)))
+                    return render_template('index.html', message =
+                            iaResponse.generate_response(text_file, iaResponse.classify_email(text_file)))
+                        
                 #trata o texto colado
                 if len(text) != 0:
-                    text = spacy.processing(text)
                     classify = iaResponse.classify_email(text)
                     res = iaResponse.generate_response(text, classify)
 

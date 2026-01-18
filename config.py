@@ -1,15 +1,11 @@
 from shlex import join
-import spacy.cli
-import spacy.cli.download
-import PyPDF2, spacy
+import PyPDF2
 import requests, os
 from openai import OpenAI as DEEPSEEK
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv("HF_TOKEN")
-
-spacy.cli.download("pt_core_news_sm")
 
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}"
@@ -74,11 +70,3 @@ class DocumentRead:
         txt = document.stream.read().decode('utf-8')
         document.stream.close()
         return txt
-class PreProcessing:
-    def processing(text):
-        nlp = spacy.load("pt_core_news_sm")
-
-        doc = nlp(text)
-        lemmas = [token.lemma_ for token in doc if not token.is_stop]
-
-        return " ".join(lemmas)
